@@ -1,0 +1,10 @@
+[package]
+name = "nui"
+version = "0.1.0"
+authors = ["MurphyMarkW <mark@gudcodes.io>"]
+edition = "2018"
+
+[dependencies]
+clap = { version = "*", features = ["color", "yaml"] }
+rocket = "0.4.1"
+rocket_contrib = "0.4.1"
