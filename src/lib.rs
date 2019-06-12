@@ -1,3 +1,5 @@
+pub mod nmap;
+
 #[cfg(test)]
 mod tests {
     #[test]
