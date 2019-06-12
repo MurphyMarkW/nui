@@ -28,9 +28,9 @@ impl Nmap<'_> {
         str::from_utf8(&output.stdout).unwrap().to_owned()
     }
 
-    pub fn scan(&self) -> String {
+    pub fn scan(&self, host: String) -> String {
         let output = Command::new(NMAPBIN)
-                             .arg(&self.hosts[0])
+                             .arg(host)
                              .arg("-oX")
                              .arg("-")
                              .output()
