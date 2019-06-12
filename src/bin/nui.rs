@@ -5,9 +5,12 @@ extern crate clap;
 use clap::App;
 
 #[macro_use] extern crate rocket;
+use rocket::State;
 use rocket_contrib::serve::StaticFiles;
 
 extern crate nui;
+use nui::nmap::Nmap;
+
 
 #[get("/")]
 fn index() -> &'static str {
@@ -15,33 +18,18 @@ fn index() -> &'static str {
 }
 
 #[get("/version")]
-fn version() -> String {
-    let nmap = nui::nmap::Nmap {
-        name: "test",
-        hosts: vec![],
-    };
-
+fn version(nmap: State<Nmap>) -> String {
     nmap.version()
 }
 
 #[get("/help")]
-fn help() -> String {
-    let nmap = nui::nmap::Nmap {
-        name: "test",
-        hosts: vec![],
-    };
-
+fn help(nmap: State<Nmap>) -> String {
     nmap.help()
 }
 
 #[get("/scan?<host>")]
-fn scan(host: Option<String>) -> String {
-    let nmap = nui::nmap::Nmap {
-        name: "test",
-        hosts: vec![host.unwrap_or_default()],
-    };
-
-    nmap.scan()
+fn scan(nmap: State<Nmap>, host: Option<String>) -> String {
+    nmap.scan(host.unwrap_or_default())
 }
 
 fn main() {
@@ -51,5 +39,6 @@ fn main() {
     rocket::ignite()
            .mount("/api", routes![index, scan, version, help])
            .mount("/", StaticFiles::from("./ui/dist/"))
+           .manage(Nmap { name: "test", hosts: vec![] })
            .launch();
 }
