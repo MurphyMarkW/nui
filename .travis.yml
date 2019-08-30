@@ -4,3 +4,11 @@ rust:
   - nightly
 
 cache: cargo
+before_cache:
+  - rm -rfv target/debug/incremental/nui-*
+  - rm -rfv target/debug/.fingerprint/nui-*
+  - rm -rfv target/debug/build/nui-*
+  - rm -rfv target/debug/deps/libnui-*
+  - rm -rfv target/debug/deps/nui-*
+  - rm -rfv target/debug/{nui,libnui}.d
+  - cargo clean -p nui
